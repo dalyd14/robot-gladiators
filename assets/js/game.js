@@ -14,6 +14,13 @@ var enemyHealth = 50;
 var enemyAttack = 12;
 
 var skipPenalty = 10;
+var rewardMoney = 20;
+
+var healthRefill = 20;
+var healthRefillCost = 7;
+
+var attackUpgrade = 6;
+var attackUpgradeCost = 7;
 
 var fight = function(enemyName) {
     while(enemyHealth > 0 && playerHealth > 0) {
@@ -44,7 +51,7 @@ var fight = function(enemyName) {
             window.alert(enemyName + " has died!");
 
             // award the player money for the win
-            playerMoney =+ 20;
+            playerMoney =+ rewardMoney;
 
             // leave loop because enemy is dead
             break;
@@ -79,11 +86,19 @@ var startGame = function() {
     for (var i = 0; i < enemyNames.length; i++) {
     
         if (playerHealth > 0) {
+
             window.alert("Welcome to Robot Gladiators! Round " + (i + 1) );
             var pickedEnemyName = enemyNames[i];
             enemyHealth = 50;
 
             fight(pickedEnemyName)
+
+            if (playerHealth > 0 && i < enemyNames.length - 1) {
+                var enterShopConfirm = confirm("Would you like to go shopping?");
+                if (enterShopConfirm) {
+                    shop();                    
+                }
+            }
         } else {
             window.alert("You have lost your robot in battle! Game Over!");
             break;
@@ -106,6 +121,50 @@ var endGame = function() {
         startGame();
     } else {
         window.alert("Thank you for playing Robot Gladiators! Come back soon!");
+    }
+}
+
+var checkMoney = function(itemCost) {
+    if (playerMoney < itemCost) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+var shop = function() {
+    var shopOptionPrompt = window.prompt(
+        "Would you like to REFILL your health, UPGRADE your attack, or LEAVE the store?" +
+        "Please enter one: REFILL, UPGRADE, or LEAVE to make a choice."
+    )
+
+    switch(shopOptionPrompt.toUpperCase()) {
+        case "REFILL":
+            if (checkMoney(healthRefillCost)) {
+                window.alert("Refilling player's health by " + healthRefill + " points for " + healthRefillCost + " coins")
+                playerHealth += healthRefill;
+                playerMoney -= healthRefillCost;                
+            } else {
+                window.alert("You do not have enough money to purchase a health refill!");
+            }
+            break;
+        case "UPGRADE":
+            if (checkMoney(attackUpgradeCost)) {
+                window.alert("Upgrading player's attack by " + attackUpgrade + " points for " + attackUpgradeCost + " coins.")
+                playerAttack += attackUpgrade;
+                playerMoney -= attackUpgradeCost;                
+            } else {
+                window.alert("You do not have enough money to purchase an attack upgrade!")
+            }
+            break;
+        case "LEAVE":
+            window.alert("Leaving the store.")
+            break;
+        default:
+            window.alert("You did not pick a valid option. Try again.");
+            // call shop() again to force player to pick a valid option
+            shop();
+            break;
     }
 }
 
