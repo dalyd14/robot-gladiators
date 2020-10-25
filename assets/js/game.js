@@ -1,17 +1,21 @@
+// Game States
+// "Win" - Player robot has defeated all enemy-robots
+//      * Fight all enemy-robots
+//      * Defeat each enemy-robot
+// "Lose" - Player robot's health is zero or less
+
 var playerName = window.prompt("What is your robot's name?");
 var playerHealth = 100;
 var playerAttack = 10;
 var playerMoney = 10;
 
-console.log(playerName, playerAttack, playerHealth);
-
-var enemyName = "Roberto";
+var enemyNames = ["Roborto", "Amy Android", "Robo Trumble"];
 var enemyHealth = 50;
 var enemyAttack = 12;
 
 var skipPenalty = 2;
 
-var fight = function() {
+var fight = function(enemyName) {
 
     // Ask players if they would like to fight or skip
     var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle? Enter FIGHT or SKIP to choose.")
@@ -62,4 +66,8 @@ var fight = function() {
     }
 };
 
-fight();
+for (var i = 0; i < enemyNames.length; i++) {
+    fight(enemyNames[i])
+}
+
+//fight();
