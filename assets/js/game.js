@@ -9,18 +9,9 @@ var fight = function(enemy) {
         "In one corner we have " + enemy.name + " [" + enemy.health + " HP] and in the other corner, we have " + playerInfo.name + " [" + playerInfo.health + " HP]!"
     );
     while(enemy.health > 0 && playerInfo.health > 0) {
-         // Ask players if they would like to fight or skip
-        var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle? Enter FIGHT or SKIP to choose.")
-
-        if (promptFight.toUpperCase() === "SKIP") {
-            var confirmSkip = confirm("Are you sure you want to skip the fight? You will lose " + skipPenalty + " coins. You currently have " + playerInfo.money + " coins in your purse!")
-
-            if (confirmSkip) {
-                playerInfo.money = Math.max(0, playerInfo.money - skipPenalty);
-                window.alert(playerInfo.name + " has chosen to skip the fight! " + playerInfo.name + " has lost "
-                    + skipPenalty + " coins, and has " + playerInfo.money + " remaining!");  
-                break;
-            }
+        // Ask players if they would like to fight or skip
+        if (fightOrSkip()) {
+            break;
         }
 
         //Subtract the value of `playerInfo.attack` from the value of `enemyHealth` 
@@ -152,6 +143,29 @@ var randomNumber = function(min, max) {
     var value = Math.floor(Math.random() * ((max - min) + 1)) + min;
 
     return value
+}
+
+var fightOrSkip = function() {
+    var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle? Enter FIGHT or SKIP to choose.")
+
+    if (promptFight === "" || promptFight === null) {
+        window.alert("Please enter a valid answer. Try again.");
+        fightOrSkip()
+    }
+
+    if (promptFight.toUpperCase() === "SKIP") {
+        var confirmSkip = confirm("Are you sure you want to skip the fight? You will lose " + skipPenalty + " coins. You currently have " + playerInfo.money + " coins in your purse!")
+
+        if (confirmSkip) {
+            playerInfo.money = Math.max(0, playerInfo.money - skipPenalty);
+            window.alert(playerInfo.name + " has chosen to skip the fight! " + playerInfo.name + " has lost "
+                + skipPenalty + " coins, and has " + playerInfo.money + " remaining!");
+        
+            return true;
+        }
+    }
+
+    return false;
 }
 
 var getPlayerName = function() {
