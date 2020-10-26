@@ -13,7 +13,6 @@ var fight = function(enemy) {
         if (fightOrSkip()) {
             break;
         }
-
         var playersTurn = true;
 
         // Randomize order for each attack! This will randomize who goes first
@@ -52,6 +51,7 @@ var fight = function(enemy) {
                     );
 
                     // leave loop because enemy is dead
+                    debugger;
                     break;
                 } else {
                     window.alert(
@@ -72,6 +72,7 @@ var fight = function(enemy) {
                 
                 if (playerInfo.health <= 0) {
                     window.alert("Oh no! " + playerInfo.name + " has died!");
+                    debugger;
                     break;
                 } else {
                     window.alert(
@@ -172,17 +173,17 @@ var fightOrSkip = function() {
     if (promptFight === "" || promptFight === null) {
         window.alert("Please enter a valid answer. Try again.");
         fightOrSkip()
-    }
+    } else {
+        if (promptFight.toUpperCase() === "SKIP") {
+            var confirmSkip = confirm("Are you sure you want to skip the fight? You will lose " + skipPenalty + " coins. You currently have " + playerInfo.money + " coins in your purse!")
 
-    if (promptFight.toUpperCase() === "SKIP") {
-        var confirmSkip = confirm("Are you sure you want to skip the fight? You will lose " + skipPenalty + " coins. You currently have " + playerInfo.money + " coins in your purse!")
-
-        if (confirmSkip) {
-            playerInfo.money = Math.max(0, playerInfo.money - skipPenalty);
-            window.alert(playerInfo.name + " has chosen to skip the fight! " + playerInfo.name + " has lost "
-                + skipPenalty + " coins, and has " + playerInfo.money + " remaining!");
-        
-            return true;
+            if (confirmSkip) {
+                playerInfo.money = Math.max(0, playerInfo.money - skipPenalty);
+                window.alert(playerInfo.name + " has chosen to skip the fight! " + playerInfo.name + " has lost "
+                    + skipPenalty + " coins, and has " + playerInfo.money + " remaining!");
+            
+                return true;
+            }
         }
     }
 
