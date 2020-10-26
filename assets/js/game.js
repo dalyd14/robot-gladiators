@@ -14,54 +14,75 @@ var fight = function(enemy) {
             break;
         }
 
-        //Subtract the value of `playerInfo.attack` from the value of `enemyHealth` 
-        //and use that result to update the value in the `enemyHealth` variable
-        var enemyDamage = randomNumber(playerInfo.attack - attackRange, playerInfo.attack)
-        enemy.health = Math.max(0, enemy.health - enemyDamage);
-        playerInfo.increaseDamagePoints(enemyDamage);
-        // Log a resulting message to the console so we know that it worked.
-        console.log(
-            playerInfo.name + " ["+ playerInfo.health +" HP] attacked " + enemy.name + " [" + enemy.health + " HP]! " + playerInfo.name + " dealt "
-            + enemyDamage + " damage, now " + enemy.name + " is left with " + enemy.health + " health!"
-        );
+        var playersTurn = true;
 
-        //check enemies health
-        if (enemy.health <= 0) {
-            // award the player money for the win
-            playerInfo.money += rewardMoney;            
-            
-            window.alert(
-                enemy.name + " has died! " + playerInfo.name + " has " + playerInfo.health + " health remaining. " + playerInfo.name + " recieved " + rewardMoney + 
-                " for winning this fight, you now have " + playerInfo.money + " coins!"
-            );
-
-            // leave loop because enemy is dead
-            break;
+        // Randomize order for each attack! This will randomize who goes first
+        if (Math.random() > 0.5) {
+            // the player goes first
+            playersTurn = true;
         } else {
-            window.alert(
-                playerInfo.name + " ["+ playerInfo.health +" HP] attacked " + enemy.name + " [" + (enemy.health + enemyDamage) + " HP]! " + playerInfo.name + " dealt "
-                + enemyDamage + " damage, now " + enemy.name + " is left with " + enemy.health + " health!"
-            )
+            // the enemy goes first
+            playersTurn = false;
         }
 
-        // Subtract the value of `enemyAttack` from the value of `playerInfo.health` 
-        //and use that result to update the value in the `playerInfo.health` variable.
-        var playerDamage = randomNumber(enemy.attack - attackRange, enemy.attack);
-        playerInfo.health = Math.max(0, playerInfo.health - playerDamage);
-        // Log a resulting message to the console so we know that it worked.
-        console.log(
-            enemy.name + " ["+ enemy.health +" HP] attacked " + playerInfo.name + " [" + (playerInfo.health + playerDamage) + " HP]! " + enemy.name + " dealt "
-            + playerDamage + " damage, now " + playerInfo.name + " is left with " + playerInfo.health + " health!"
-        )
-        
-        if (playerInfo.health <= 0) {
-            window.alert("Oh no! " + playerInfo.name + " has died!");
-            break;
-        } else {
-            window.alert(
-                enemy.name + " ["+ enemy.health +" HP] attacked " + playerInfo.name + " [" + (playerInfo.health + playerDamage) + " HP]! " + enemy.name + " dealt "
-                + playerDamage + " damage, now " + playerInfo.name + " is left with " + playerInfo.health + " health!"
-            )
+        // Loop through this fighting sequence twice because for each attack there will be a counter
+        for ( var j = 0; j < 2; j++) {
+
+            // Check if it is the players turn or the enemies
+            if (playersTurn) {
+                //Subtract the value of `playerInfo.attack` from the value of `enemyHealth` 
+                //and use that result to update the value in the `enemyHealth` variable
+                var enemyDamage = randomNumber(playerInfo.attack - attackRange, playerInfo.attack)
+                enemy.health = Math.max(0, enemy.health - enemyDamage);
+                playerInfo.increaseDamagePoints(enemyDamage);
+                // Log a resulting message to the console so we know that it worked.
+                console.log(
+                    playerInfo.name + " ["+ playerInfo.health +" HP] attacked " + enemy.name + " [" + enemy.health + " HP]! " + playerInfo.name + " dealt "
+                    + enemyDamage + " damage, now " + enemy.name + " is left with " + enemy.health + " health!"
+                );
+
+                //check enemies health
+                if (enemy.health <= 0) {
+                    // award the player money for the win
+                    playerInfo.money += rewardMoney;            
+                    
+                    window.alert(
+                        enemy.name + " has died! " + playerInfo.name + " has " + playerInfo.health + " health remaining. " + playerInfo.name + " recieved " + rewardMoney + 
+                        " for winning this fight, you now have " + playerInfo.money + " coins!"
+                    );
+
+                    // leave loop because enemy is dead
+                    break;
+                } else {
+                    window.alert(
+                        playerInfo.name + " ["+ playerInfo.health +" HP] attacked " + enemy.name + " [" + (enemy.health + enemyDamage) + " HP]! " + playerInfo.name + " dealt "
+                        + enemyDamage + " damage, now " + enemy.name + " is left with " + enemy.health + " health!"
+                    )
+                }
+            } else {
+                // Subtract the value of `enemyAttack` from the value of `playerInfo.health` 
+                //and use that result to update the value in the `playerInfo.health` variable.
+                var playerDamage = randomNumber(enemy.attack - attackRange, enemy.attack);
+                playerInfo.health = Math.max(0, playerInfo.health - playerDamage);
+                // Log a resulting message to the console so we know that it worked.
+                console.log(
+                    enemy.name + " ["+ enemy.health +" HP] attacked " + playerInfo.name + " [" + (playerInfo.health + playerDamage) + " HP]! " + enemy.name + " dealt "
+                    + playerDamage + " damage, now " + playerInfo.name + " is left with " + playerInfo.health + " health!"
+                )
+                
+                if (playerInfo.health <= 0) {
+                    window.alert("Oh no! " + playerInfo.name + " has died!");
+                    break;
+                } else {
+                    window.alert(
+                        enemy.name + " ["+ enemy.health +" HP] attacked " + playerInfo.name + " [" + (playerInfo.health + playerDamage) + " HP]! " + enemy.name + " dealt "
+                        + playerDamage + " damage, now " + playerInfo.name + " is left with " + playerInfo.health + " health!"
+                    )
+                }
+            }
+
+            // reverses playersTurn so that the opposit robot now attacks the second time through the for loop
+            playersTurn = !playersTurn;
         }
     }
 };
