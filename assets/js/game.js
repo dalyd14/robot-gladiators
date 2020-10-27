@@ -122,7 +122,7 @@ var endGame = function() {
 
         var highScore = localStorage.getItem("highScore");
 
-        if (highscore !== null) {
+        if (highScore !== null) {
             if (parseInt(highScore) >= finalScore) {
                 window.alert("You didn't quite beat the high score of " & highScore);
             } else {
