@@ -51,7 +51,6 @@ var fight = function(enemy) {
                     );
 
                     // leave loop because enemy is dead
-                    debugger;
                     break;
                 } else {
                     window.alert(
@@ -72,7 +71,6 @@ var fight = function(enemy) {
                 
                 if (playerInfo.health <= 0) {
                     window.alert("Oh no! " + playerInfo.name + " has died!");
-                    debugger;
                     break;
                 } else {
                     window.alert(
@@ -119,7 +117,23 @@ var startGame = function() {
 
 var endGame = function() {
     if (playerInfo.health > 0) {
-        window.alert("Great job, you survived the game! You have a score of " + (Math.ceil(playerInfo.totalDamageGiven/2) + playerInfo.money) + ".\nCalculated by (Total Damage Given / 2) + (Totaly Coins in Purse)");
+        var finalScore = Math.ceil(playerInfo.totalDamageGiven/2) + playerInfo.money;
+        window.alert("Great job, you survived the game! You have a score of " + finalScore + ".\nCalculated by (Total Damage Given / 2) + (Totaly Coins in Purse)");
+
+        var highScore = localStorage.getItem("highScore");
+
+        if (highscore !== null) {
+            if (parseInt(highScore) >= finalScore) {
+                window.alert("You didn't quite beat the high score of " & highScore);
+            } else {
+                localStorage.setItem("highScore", finalScore.toString());
+                window.alert("Congrats! You just set a new high score! This will now be saved for the future.");
+            }
+        } else {
+            localStorage.setItem("highScore", finalScore.toString());
+            window.alert("Congrats! You just set a high score, because... well, there wasn't one before. However, this will be saved for the future!");
+        }
+
     } else {
         window.alert("You have lost your robot in battle!");
     }
